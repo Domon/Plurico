@@ -24,7 +24,7 @@ console.log("Plurico background loaded.");
 if (!localStorage["Plurico_version"]) {
   console.log("clear all data created by previous version");
   localStorage.clear();
-  localStorage["Plurico_version"] = "0.1.2.1";
+  localStorage["Plurico_version"] = "0.1.2.2";
 }
 
 // response when requested
