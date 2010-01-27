@@ -20,7 +20,7 @@
 
 console.log("Plurico background loaded.");
 
-var version = "0.1.3.3";
+var version = "0.1.3.6";
 var start_time = (new Date()).getTime();
 
 // clear data created by previous version
@@ -36,7 +36,7 @@ chrome.extension.onRequest.addListener(
     var video_url = request.video_url;
     var video_id = video_url.substring(video_url.indexOf("/watch/")+7);
     var title = "";
-    var thumbnail_url = "http://res.nicovideo.jp/img/common/video_deleted.jpg";
+    var thumbnail_url = "";
     var embed = "";
     var now = (new Date()).getTime();
     var last_update = 0;
@@ -58,16 +58,22 @@ chrome.extension.onRequest.addListener(
       console.log("start_time = " + start_time + ", last_update: " + now + " - " + last_update + " = " + (start_time - last_update));
       if ((start_time < last_update) && (now - last_update < 600000)) {
         console.log(video_id + ": use recent embed.");
-	// respond to content script
+        // respond to content script
         sendResponse({"video_id": video_id, "title": title, "thumbnail_url": thumbnail_url, "embed": embed });
-      };
+      }
     } else {
       // get thumbinfo from nico
       $.get("http://ext.nicovideo.jp/api/getthumbinfo/" + video_id, function(data) {
-        video_id = $(data).find("video_id").text();
-        title = $(data).find("title").text();
-        thumbnail_url = $(data).find("thumbnail_url").text();
-        console.log(video_id + ": got from Nico. thumbnail_url = " + thumbnail_url + ", title = " + title);
+        var code = $(data).find("code").text();
+      	if (code == "DELETED") {
+          title = "お探しの動画は削除されました";
+          thumbnail_url = "http://res.nicovideo.jp/img/common/video_deleted.jpg";
+      	} else {
+          video_id = $(data).find("video_id").text();
+          title = $(data).find("title").text();
+          thumbnail_url = $(data).find("thumbnail_url").text();
+      	}
+      console.log(video_id + ": got from Nico. thumbnail_url = " + thumbnail_url + ", title = " + title);
       }, "xml");
     }
 
@@ -76,13 +82,15 @@ chrome.extension.onRequest.addListener(
       // remove it from background.html and provide it to content.js
       embed = $("embed:last, p:last").remove().fullhtml();
       // save to localStorage
-      localStorage[video_id] = JSON.stringify({
-        "video_id": video_id,
-        "title": title,
-        "thumbnail_url": thumbnail_url,
-        "embed": embed,
-        "last_update": now
+      if ((title != "") && (thumbnail_url != "")) {
+        localStorage[video_id] = JSON.stringify({
+          "video_id": video_id,
+          "title": title,
+          "thumbnail_url": thumbnail_url,
+          "embed": embed,
+          "last_update": now
         });
+      }
       // respond to content script
       sendResponse({"video_id": video_id, "title": title, "thumbnail_url": thumbnail_url, "embed": embed });
     });
