@@ -20,8 +20,8 @@
 
 $(function(){
 
-// start processing when mouseover on any div.text_holder
-$("#timeline_holder").listen("mouseover", "div.text_holder", function(){
+// start processing when mouseover on any div.plurk_cnt
+$("#timeline_holder").listen("mouseover", "div.plurk_cnt", function(){
   console.log("mouseover detected");
   // get unprocessed nico links
   $("div.text_holder > a.ex_link:not(.video)[href*='nicovideo.jp/watch/']").each(function(index, nico_link) {
@@ -45,18 +45,22 @@ $("#timeline_holder").listen("mouseover", "div.text_holder", function(){
         $(".tooltip_cnt").parent().css("display", "none");
       }).click(function() {
         // prepare dialog
-	if ($('#dialog-' + video_id).length === 0) {
-	  $("body").append($('<div id="dialog-' + video_id + '"></div>'));
+	var dialog_id = "#dialog-" + video_id;
+	if ($(dialog_id).length === 0) {
+          console.log(video_id + ": preparing dialog.");
+          $("body").append($('<div id="dialog-' + video_id + '"></div>'));
+          $(dialog_id).attr("title", title).html(
+	    embed +'<p class="direct_link">Direct link: <a href="'+video_url+'" target="_blank">'+video_url+'</a></p>'
+          );
+	} else {
+          console.log(video_id + ": dialog exists, use it.");
 	}
-	$('#dialog-' + video_id).attr("title", title).html(
-	  embed +'<p class="direct_link">Direct link: <a href="'+video_url+'" target="_blank">'+video_url+'</a></p>'
-        );
-	$('#dialog-' + video_id).dialog({
+	$(dialog_id).dialog({
           autoOpen: false,
 	  width: 522,
 	  height:478
 	});
-        $('#dialog-' + video_id).dialog("open");
+        $(dialog_id).dialog("open");
         return false;
       }).html('<img src="'+ thumbnail_url +'" alt="" width="40" height="30">');
     });

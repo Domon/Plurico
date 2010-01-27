@@ -20,11 +20,14 @@
 
 console.log("Plurico background loaded.");
 
+var version = "0.1.3.3";
+var start_time = (new Date()).getTime();
+
 // clear data created by previous version
-if (!localStorage["Plurico_version"]) {
+if (!localStorage["version"] || localStorage["version"] != version) {
   console.log("clear all data created by previous version");
   localStorage.clear();
-  localStorage["Plurico_version"] = "0.1.2.2";
+  localStorage["version"] = version;
 }
 
 // response when requested
@@ -32,11 +35,14 @@ chrome.extension.onRequest.addListener(
   function(request, sender, sendResponse) {
     var video_url = request.video_url;
     var video_id = video_url.substring(video_url.indexOf("/watch/")+7);
-    var thumbnail_url = "";
     var title = "";
+    var thumbnail_url = "http://res.nicovideo.jp/img/common/video_deleted.jpg";
     var embed = "";
+    var now = (new Date()).getTime();
+    var last_update = 0;
     console.log(sender.tab ? "from a content script: " + sender.tab.url : "from the extension");
     console.log("request.video_url = " + request.video_url + ", video_id = " + video_id);
+    // show icon
     chrome.pageAction.show(sender.tab.id);
 
     if (localStorage[video_id]) {
@@ -45,7 +51,16 @@ chrome.extension.onRequest.addListener(
       video_id = video_thumbinfo["video_id"];
       title = video_thumbinfo["title"]
       thumbnail_url = video_thumbinfo["thumbnail_url"];
+      embed = video_thumbinfo["embed"];
+      last_update = video_thumbinfo["last_update"];
       console.log(video_id + ": found in localStorage.");
+
+      console.log("start_time = " + start_time + ", last_update: " + now + " - " + last_update + " = " + (start_time - last_update));
+      if ((start_time < last_update) && (now - last_update < 600000)) {
+        console.log(video_id + ": use recent embed.");
+	// respond to content script
+        sendResponse({"video_id": video_id, "title": title, "thumbnail_url": thumbnail_url, "embed": embed });
+      };
     } else {
       // get thumbinfo from nico
       $.get("http://ext.nicovideo.jp/api/getthumbinfo/" + video_id, function(data) {
@@ -53,19 +68,22 @@ chrome.extension.onRequest.addListener(
         title = $(data).find("title").text();
         thumbnail_url = $(data).find("thumbnail_url").text();
         console.log(video_id + ": got from Nico. thumbnail_url = " + thumbnail_url + ", title = " + title);
-
-        // save to localStorage
-        localStorage[video_id] = JSON.stringify({
-          "video_id": video_id,
-	  "title": title,
-	  "thumbnail_url": thumbnail_url
-        });
       }, "xml");
     }
+
     // execute js to get embeded player
     $.getScript("http://ext.nicovideo.jp/thumb_watch/" + video_id, function() {
       // remove it from background.html and provide it to content.js
       embed = $("embed:last, p:last").remove().fullhtml();
+      // save to localStorage
+      localStorage[video_id] = JSON.stringify({
+        "video_id": video_id,
+        "title": title,
+        "thumbnail_url": thumbnail_url,
+        "embed": embed,
+        "last_update": now
+        });
+      // respond to content script
       sendResponse({"video_id": video_id, "title": title, "thumbnail_url": thumbnail_url, "embed": embed });
     });
   });
