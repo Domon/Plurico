@@ -7,7 +7,7 @@ Plurico is a simple Chrome extension to view Nico videos inside Plurk.
 Installation
 ------------
 
-Please visit https://chrome.google.com/extensions/detail/ecjlhppajppdjddoaicjgknlbknfmpdd.
+Please visit: [Plurico - Google Chrome extension gallery](https://chrome.google.com/extensions/detail/ecjlhppajppdjddoaicjgknlbknfmpdd).
 
 
 License
