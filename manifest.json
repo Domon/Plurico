@@ -3,11 +3,11 @@
   "version": "0.1.4.0",
   "description": "A simple extension to view Nico videos inside Plurk",
   "icons": {"16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png"},
-  "background_page": "background.html",
   "page_action": {
     "default_icon": "icons/16.png",
     "default_title": "Plurico is activated."
   },
+  "background_page": "background.html",
   "content_scripts": [
     {
       "matches": ["http://www.plurk.com/*"],
