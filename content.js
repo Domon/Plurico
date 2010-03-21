@@ -18,7 +18,7 @@
  * along with Plurico.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$(function(){
+$(document).ready(function() {
 
 // start processing when mouseover on any div.plurk_cnt
 $("#timeline_holder").listen("mouseover", "div.plurk_cnt", function(){
