@@ -20,7 +20,7 @@
 
 console.log("Plurico background loaded.");
 
-var version = "0.1.4.0";
+var version = "0.1.5.0";
 var start_time = (new Date()).getTime();
 
 // clear data created by previous version

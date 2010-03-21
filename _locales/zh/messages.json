@@ -1,0 +1,14 @@
+{
+  "ext_name": {
+    "message": "Plurico",
+    "description": "Extension name."
+  },
+  "ext_description": {
+    "message": "讓您在 Plurk 中直接觀賞 nico 影片。",
+    "description": "Extension description."
+  },
+  "page_action_default_title": {
+    "message": "Plurico 已啟動",
+    "description": "The default_title of page_action."
+  }
+}

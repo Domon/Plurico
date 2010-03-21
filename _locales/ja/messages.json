@@ -1,0 +1,14 @@
+{
+  "ext_name": {
+    "message": "プラリコ",
+    "description": "Extension name."
+  },
+  "ext_description": {
+    "message": "Plurk でニコニコ動画を視聴できる拡張機能です。",
+    "description": "Extension description."
+  },
+  "page_action_default_title": {
+    "message": "プラリコ起動しました。",
+    "description": "The default_title of page_action."
+  }
+}

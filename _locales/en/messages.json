@@ -1,0 +1,14 @@
+{
+  "ext_name": {
+    "message": "Plurico",
+    "description": "Extension name."
+  },
+  "ext_description": {
+    "message": "A simple extension to view Nico videos inside Plurk",
+    "description": "Extension description."
+  },
+  "page_action_default_title": {
+    "message": "Plurico is activated",
+    "description": "The default_title of page_action."
+  }
+}
