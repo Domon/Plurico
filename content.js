@@ -37,29 +37,29 @@ $("#timeline_holder").listen("mouseover", "div.plurk_cnt", function(){
       $(nico_link).addClass("nico video").mouseover(function() {
         // prepare a mouseover tooltip
         if ($(".tooltip_cnt").length === 0) {
-	  $("div.AmiTT_main.AmiTT_left").append($('<div class="tooltip_cnt"></div>'));
-	}
+          $("div.AmiTT_main.AmiTT_left").append($('<div class="tooltip_cnt"></div>'));
+        }
         var pos = $(this).offset();
         $(".tooltip_cnt").html(title).parent().css({"left": pos.left - 5, "top": pos.top + 35, "display": "inline"});
       }).mouseout(function() {
         $(".tooltip_cnt").parent().css("display", "none");
       }).click(function() {
         // prepare dialog
-	var dialog_id = "#dialog-" + video_id;
-	if ($(dialog_id).length === 0) {
+        var dialog_id = "#dialog-" + video_id;
+        if ($(dialog_id).length === 0) {
           console.log(video_id + ": preparing dialog.");
           $("body").append($('<div id="dialog-' + video_id + '"></div>'));
           $(dialog_id).attr("title", title).html(
-	    embed +'<p class="direct_link">Direct link: <a href="'+video_url+'" target="_blank">'+video_url+'</a></p>'
+            embed +'<p class="direct_link">Direct link: <a href="'+video_url+'" target="_blank">'+video_url+'</a></p>'
           );
-	} else {
+        } else {
           console.log(video_id + ": dialog exists, use it.");
-	}
-	$(dialog_id).dialog({
+        }
+        $(dialog_id).dialog({
           autoOpen: false,
-	  width: 522,
-	  height:478
-	});
+          width: 522,
+          height:478
+        });
         $(dialog_id).dialog("open");
         return false;
       }).html('<img src="'+ thumbnail_url +'" alt="" width="40" height="30">');
