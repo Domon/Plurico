@@ -20,7 +20,7 @@
 
 console.log("Plurico background loaded.");
 
-var version = "0.1.6.1";
+var version = "0.1.6.2";
 var start_time = (new Date()).getTime();
 
 // clear data created by previous version
@@ -56,7 +56,8 @@ chrome.extension.onRequest.addListener(
       console.log(video_id + ": found in localStorage.");
 
       console.log("start_time = " + start_time + ", last_update: " + now + " - " + last_update + " = " + (start_time - last_update));
-      if ((start_time < last_update) && (now - last_update < 600000)) {
+      // use saved embedded objects created within 1 hr
+      if ((start_time < last_update) && (now - last_update < 3600000)) {
         console.log(video_id + ": use recent embed.");
         // respond to content script
         sendResponse({"video_id": video_id, "title": title, "thumbnail_url": thumbnail_url, "embed": embed });
