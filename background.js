@@ -65,17 +65,17 @@ chrome.extension.onRequest.addListener(
       // get thumbinfo from nico
       $.get("http://ext.nicovideo.jp/api/getthumbinfo/" + video_id, function(data) {
         var code = $(data).find("code").text();
-      	if (code == "DELETED") {
+        if (code == "DELETED") {
           title = "お探しの動画は削除されました";
           thumbnail_url = "http://res.nicovideo.jp/img/common/video_deleted.jpg";
         } else if (code == "NOT_FOUND") {
           title = "not found or invalid";
           thumbnail_url = "not found or invalid";
-      	} else {
+        } else {
           video_id = $(data).find("video_id").text();
           title = $(data).find("title").text();
           thumbnail_url = $(data).find("thumbnail_url").text();
-      	}
+        }
       console.log(video_id + ": got from Nico. thumbnail_url = " + thumbnail_url + ", title = " + title);
       }, "xml");
     }
