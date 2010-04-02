@@ -24,7 +24,7 @@ $(document).ready(function() {
 $("#timeline_holder").listen("mouseover", "div.plurk_cnt", function(){
   console.log("mouseover detected");
   // get unprocessed nico links
-  $("div.text_holder > a.ex_link:not(.video)[href*='nicovideo.jp/watch/']").each(function(index, nico_link) {
+  $("a.ex_link:not(.video)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video)[href*='nico.ms/']").each(function(index, nico_link) {
     var video_url = $(nico_link).attr("href");
     // send message, get response that contains thumbinfo
     chrome.extension.sendRequest({"video_url": video_url}, function(response) {
@@ -33,6 +33,13 @@ $("#timeline_holder").listen("mouseover", "div.plurk_cnt", function(){
       var video_id = response.video_id;
       var embed = response.embed;
       console.log(video_id + ": thumbnail_url = " + thumbnail_url + " , title = " + title);
+
+      // break if not a nico video
+      if (title == "not found or invalid") {
+        console.log(video_url + ": Not a nico video.");
+        return false;
+      }
+
       // process the current nico link
       $(nico_link).addClass("nico video").mouseover(function() {
         // prepare a mouseover tooltip

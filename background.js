@@ -20,7 +20,7 @@
 
 console.log("Plurico background loaded.");
 
-var version = "0.1.5.0";
+var version = "0.1.6.0";
 var start_time = (new Date()).getTime();
 
 // clear data created by previous version
@@ -34,7 +34,7 @@ if (!localStorage["version"] || localStorage["version"] != version) {
 chrome.extension.onRequest.addListener( 
   function(request, sender, sendResponse) {
     var video_url = request.video_url;
-    var video_id = video_url.substring(video_url.indexOf("/watch/")+7);
+    var video_id = video_url.match(/\w*$/);
     var title = "";
     var thumbnail_url = "";
     var embed = "";
@@ -68,6 +68,9 @@ chrome.extension.onRequest.addListener(
       	if (code == "DELETED") {
           title = "お探しの動画は削除されました";
           thumbnail_url = "http://res.nicovideo.jp/img/common/video_deleted.jpg";
+        } else if (code == "NOT_FOUND") {
+          title = "not found or invalid";
+          thumbnail_url = "not found or invalid";
       	} else {
           video_id = $(data).find("video_id").text();
           title = $(data).find("title").text();
