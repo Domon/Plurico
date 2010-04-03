@@ -20,8 +20,8 @@
 
 $(document).ready(function() {
 
-// start processing when mouseover on a link
-$("#timeline_holder").listen("mouseover", "a.name, a.ex_link", function(){
+// start processing when mouseover on a plurk
+$("#timeline_holder").delegate("div.plurk", "mouseover", function(){
   console.log("mouseover detected");
   // get unprocessed nico links
   $("a.ex_link:not(.video)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video)[href*='nico.ms/']").each(function(index, nico_link) {
