@@ -24,8 +24,8 @@ $(document).ready(function() {
 $("#timeline_holder").delegate("div.plurk", "mouseover", function(){
   console.log("mouseover detected");
   // get unprocessed nico links
-  $("a.ex_link:not(.video)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video)[href*='nico.ms/']").each(function(index, nico_link) {
-    var video_url = $(nico_link).attr("href");
+  $("a.ex_link:not(.video, .processing)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video, .processing)[href*='nico.ms/']").each(function(index, nico_link) {
+    var video_url = $(nico_link).addClass("processing").attr("href");
     // send message, get response that contains thumbinfo
     chrome.extension.sendRequest({"video_url": video_url}, function(response) {
       var thumbnail_url = response.thumbnail_url;
@@ -69,7 +69,7 @@ $("#timeline_holder").delegate("div.plurk", "mouseover", function(){
         });
         $(dialog_id).dialog("open");
         return false;
-      }).html('<img src="'+ thumbnail_url +'" alt="" width="40" height="30">');
+      }).html('<img src="'+ thumbnail_url +'" alt="" width="40" height="30">').removeClass("processing");
     });
   });
 });
