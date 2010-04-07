@@ -43,19 +43,20 @@ $("#timeline_holder").delegate("div.plurk", "mouseover", function(){
       // process the current nico link
       $(nico_link).addClass("nico video").mouseover(function() {
         // prepare a mouseover tooltip
-        if ($(".tooltip_cnt").length === 0) {
-          $("div.AmiTT_main.AmiTT_left").append($('<div class="tooltip_cnt"></div>'));
+        AmiTT_div = $("div.AmiTT_main.AmiTT_left");
+        if ($("div.tooltip_cnt").length === 0) {
+          $('<div/>').addClass("tooltip_cnt").appendTo(AmiTT_div);
         }
         var pos = $(this).offset();
-        $(".tooltip_cnt").html(title).parent().css({"left": pos.left - 5, "top": pos.top + 35, "display": "inline"});
+        AmiTT_div.css({"left": pos.left - 5, "top": pos.top + 35, "display": "inline"}).find("div.tooltip_cnt").html(title);
       }).mouseout(function() {
-        $(".tooltip_cnt").parent().css("display", "none");
+        AmiTT_div.css("display", "none");
       }).click(function() {
         // prepare dialog
         var dialog_id = "#dialog-" + video_id;
         if ($(dialog_id).length === 0) {
           console.log(video_id + ": preparing dialog.");
-          $("body").append($('<div id="dialog-' + video_id + '"></div>'));
+          $('<div/>').attr("id", "dialog-" + video_id).appendTo("body");
           $(dialog_id).attr("title", title).html(
             embed +'<p class="direct_link">Direct link: <a href="'+video_url+'" target="_blank">'+video_url+'</a></p>'
           );
