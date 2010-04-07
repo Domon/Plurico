@@ -20,11 +20,13 @@
 
 $(document).ready(function() {
 
-// start processing when mouseover on a plurk
-$("#timeline_holder").delegate("div.plurk", "mouseover", function(){
-  console.log("mouseover detected");
+// start processing when a plurk is inserted
+$("#timeline_holder").delegate("div.plurk", "DOMNodeInserted", function(){
+  console.log($(this).attr("id") + ": DOMNodeInserted");
+  if (!$(this).hasClass("checked")) {
+  $(this).addClass("checked");
   // get unprocessed nico links
-  $("a.ex_link:not(.video, .processing)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video, .processing)[href*='nico.ms/']").each(function(index, nico_link) {
+  $("a.ex_link:not(.video)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video)[href*='nico.ms/']", this).each(function(index, nico_link) {
     var video_url = $(nico_link).addClass("processing").attr("href");
     // send message, get response that contains thumbinfo
     chrome.extension.sendRequest({"video_url": video_url}, function(response) {
@@ -70,9 +72,10 @@ $("#timeline_holder").delegate("div.plurk", "mouseover", function(){
         });
         $(dialog_id).dialog("open");
         return false;
-      }).html('<img src="'+ thumbnail_url +'" alt="" width="40" height="30">').removeClass("processing");
+      }).html('<img src="'+ thumbnail_url +'" alt="" width="40" height="30">');
     });
   });
+}
 });
 
 });
