@@ -19,16 +19,14 @@
  */
 
 $(document).ready(function() {
-
-// start processing when a plurk is inserted
-$("#timeline_holder").delegate("div.plurk", "DOMNodeInserted", function(){
-  console.log($(this).attr("id") + ": DOMNodeInserted");
-  if (!$(this).hasClass("checked")) {
-  $(this).addClass("checked");
-  process_nico_links(this);
-}
-});
-
+  // start processing when a plurk is inserted
+  $("#timeline_holder").delegate("div.plurk", "DOMNodeInserted", function(){
+    console.log($(this).attr("id") + ": DOMNodeInserted");
+    if (!$(this).hasClass("checked")) {
+      $(this).addClass("checked");
+      process_nico_links(this);
+    }
+  });
 });
 
 function process_nico_links(div_plurk) {
