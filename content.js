@@ -27,6 +27,12 @@ $(document).ready(function() {
       process_nico_links(this);
     }
   });
+
+  // start processing when responses are loaded or a response is newly added
+  $("#form_holder").delegate("div.list", "DOMNodeInserted", function(){
+    console.log("div.list DOMNodeInserted");
+    process_nico_links(this);
+  });
 });
 
 function process_nico_links(div_plurk) {
