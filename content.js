@@ -25,8 +25,15 @@ $("#timeline_holder").delegate("div.plurk", "DOMNodeInserted", function(){
   console.log($(this).attr("id") + ": DOMNodeInserted");
   if (!$(this).hasClass("checked")) {
   $(this).addClass("checked");
+  process_nico_links(this);
+}
+});
+
+});
+
+function process_nico_links(div_plurk) {
   // get unprocessed nico links
-  $("a.ex_link:not(.video)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video)[href*='nico.ms/']", this).each(function(index, nico_link) {
+  $("a.ex_link:not(.video)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video)[href*='nico.ms/']", div_plurk).each(function(index, nico_link) {
     var video_url = $(nico_link).addClass("processing").attr("href");
     // send message, get response that contains thumbinfo
     chrome.extension.sendRequest({"video_url": video_url}, function(response) {
@@ -76,6 +83,3 @@ $("#timeline_holder").delegate("div.plurk", "DOMNodeInserted", function(){
     });
   });
 }
-});
-
-});
