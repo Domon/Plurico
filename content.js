@@ -32,7 +32,7 @@ $(document).ready(function() {
 function process_nico_links(div_plurk) {
   // get unprocessed nico links
   $("a.ex_link:not(.video)[href*='nicovideo.jp/watch/'], a.ex_link:not(.video)[href*='nico.ms/']", div_plurk).each(function(index, nico_link) {
-    var video_url = $(nico_link).addClass("processing").attr("href");
+    var video_url = $(nico_link).attr("href");
     // send message, get response that contains thumbinfo
     chrome.extension.sendRequest({"video_url": video_url}, function(response) {
       var thumbnail_url = response.thumbnail_url;
