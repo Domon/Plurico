@@ -52,14 +52,14 @@ function process_nico_links(div_plurk) {
       // process the current nico link
       $(nico_link).addClass("nico video").mouseover(function() {
         // prepare a mouseover tooltip
-        AmiTT_div = $("div.AmiTT_main.AmiTT_left");
+        div_AmiTT = $("div.AmiTT_main.AmiTT_left");
         if ($("div.tooltip_cnt").length === 0) {
-          $('<div/>').addClass("tooltip_cnt").appendTo(AmiTT_div);
+          $('<div/>').addClass("tooltip_cnt").appendTo(div_AmiTT);
         }
         var pos = $(this).offset();
-        AmiTT_div.css({"left": pos.left - 5, "top": pos.top + 35, "display": "inline"}).find("div.tooltip_cnt").html(title);
+        div_AmiTT.css({"left": pos.left - 5, "top": pos.top + 35, "display": "inline"}).find("div.tooltip_cnt").html(title);
       }).mouseout(function() {
-        AmiTT_div.css("display", "none");
+        div_AmiTT.css("display", "none");
       }).click(function() {
         // prepare dialog
         var dialog_id = "#dialog-" + video_id;
