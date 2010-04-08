@@ -1,6 +1,6 @@
 {
   "name": "__MSG_ext_name__",
-  "version": "0.1.8.0",
+  "version": "0.1.8.1",
   "description": "__MSG_ext_description__",
   "icons": {"16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png"},
   "default_locale": "en",
@@ -12,8 +12,8 @@
   "content_scripts": [
     {
       "matches": ["http://www.plurk.com/*"],
-      "js": ["jquery-1.4.2.min.js", "jquery-ui-1.7.2.custom.min.js", "content.js"],
-      "css": ["css/ui-lightness/jquery-ui-1.7.2.custom.absolute.css", "content.css"],
+      "js": ["jquery-1.4.2.min.js", "jquery-ui-1.8.custom.min.js", "content.js"],
+      "css": ["css/ui-lightness/jquery-ui-1.8.custom.css", "content.css"],
       "run_at": "document_start",
       "all_frames": true
     }
